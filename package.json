@@ -1,0 +1,105 @@
+{
+  "name": "tdd-and-function-composition-examples",
+  "version": "1.0.0",
+  "description": "Example of a simple DI strategy",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "prestart": "npm run build",
+    "start": "node .",
+    "start:dev": "nodemon src/index.ts",
+    "lint": "eslint . --ext .ts,.js --ignore-pattern node_modules",
+    "test:unit": "jest --forceExit --no-cache --detectOpenHandles --testPathIgnorePatterns=.*integration.*\\.spec\\.ts",
+    "test:integration": "jest --forceExit --no-cache --detectOpenHandles --testPathPattern=.*integration.*\\.spec\\.ts",
+    "test:all": "npm run test:unit && npm run test:integration"
+  },
+  "author": "Daniel Somerfield",
+  "license": "PROPRIETARY",
+  "devDependencies": {
+    "nodemon": "^2.0.21"
+  },
+  "dependencies": {
+    "@typescript-eslint/parser": "^5.48.0",
+    "eslint": "^8.31.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1"
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+      "prettier",
+      "plugin:import/typescript"
+    ],
+    "plugins": [
+      "prettier",
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "prettier/prettier": [
+        "error"
+      ],
+      "no-else-return": "off",
+      "import/prefer-default-export": "off",
+      "no-restricted-syntax": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          "vars": "all",
+          "args": "after-used",
+          "ignoreRestSiblings": false
+        }
+      ],
+      "import/extensions": [
+        "error",
+        "ignorePackages",
+        {
+          "js": "never",
+          "jsx": "never",
+          "ts": "never",
+          "tsx": "never"
+        }
+      ]
+    },
+    "env": {
+      "jest": true
+    },
+    "ignorePatterns": [
+      "dist"
+    ]
+  },
+  "prettier": {
+    "arrowParens": "avoid",
+    "bracketSpacing": true,
+    "htmlWhitespaceSensitivity": "css",
+    "insertPragma": false,
+    "jsxBracketSameLine": false,
+    "jsxSingleQuote": false,
+    "printWidth": 80,
+    "proseWrap": "preserve",
+    "requirePragma": false,
+    "semi": true,
+    "singleQuote": false,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "useTabs": false
+  },
+  "nodemonConfig": {
+    "restartable": "rs",
+    "ignore": [
+      ".git",
+      "node_modules/**/node_modules"
+    ],
+    "verbose": true,
+    "execMap": {
+      "ts": "node --require ts-node/register"
+    },
+    "watch": [
+      "src/",
+      "public/"
+    ],
+    "env": {
+      "NODE_ENV": "development"
+    },
+    "ext": "js,json,ts,yaml"
+  }
+}
