@@ -1,6 +1,15 @@
 import axios from "axios";
+import { Server } from "http";
+import * as server from "../src/server";
 
-// <codeFragment name="e2e">
+import {
+  createRatingByUserForRestaurant,
+  createRestaurant,
+  createUser,
+} from "./domainTestingHelpers";
+import * as DB from "./DB";
+import { Database } from "./DB";
+
 describe("the restaurants endpoint", () => {
   let app: Server | undefined;
   let database: Database | undefined;
@@ -16,7 +25,7 @@ describe("the restaurants endpoint", () => {
     { id: "burgerkingid", name: "Burger King" },
   ];
 
-  const ratingsByUser = [
+  const ratingsByUser: [string, any, any, string][] = [
     ["rating1", users[0], restaurants[0], "EXCELLENT"],
     ["rating2", users[1], restaurants[0], "TERRIBLE"],
     ["rating3", users[2], restaurants[0], "AVERAGE"],
@@ -36,11 +45,17 @@ describe("the restaurants endpoint", () => {
       }
 
       for (const restaurant of restaurants) {
-        await createUser(restaurant, client);
+        await createRestaurant(restaurant, client);
       }
 
       for (const rating of ratingsByUser) {
-        await createRatingByUserForRestaurant(rating, client);
+        await createRatingByUserForRestaurant(
+          rating[0],
+          rating[1],
+          rating[2],
+          rating[3],
+          client,
+        );
       }
     } finally {
       await client.end();
@@ -63,8 +78,6 @@ describe("the restaurants endpoint", () => {
   });
 
   it("ranks by the recommendation heuristic", async () => {
-    // .. snip
-    // </codeFragment>
     const response = await axios.get<ResponsePayload>(
       "http://localhost:3000/vancouverbc/restaurants/recommended",
       { timeout: 1000 },
