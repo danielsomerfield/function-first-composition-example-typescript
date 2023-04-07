@@ -1,17 +1,30 @@
 import { Request, Response } from "express";
-import { Send } from "express-serve-static-core";
+import { ParamsDictionary, Send } from "express-serve-static-core";
 
-export const stubRequest = () => ({} as unknown as Request);
+export const stubRequest = () => (new StubRequestImpl() as unknown as StubRequest & Request);
 
 export const stubResponse = (): StubResponse & Response =>
   new StubResponseImpl() as unknown as StubResponse & Response;
 
 export interface StubResponse {
-  getSentBody(): any;
+  getSentBody<T>(): T;
   getHeader(name: string): string | string[];
 }
 
-export interface StubRequest extends Request {}
+export interface StubRequest {
+  withParams(params: ParamsDictionary): this
+}
+
+class StubRequestImpl implements StubRequest {
+
+  private params: ParamsDictionary = {}
+
+  withParams(params: ParamsDictionary): this {
+    this.params = params;
+    return this;
+  }
+
+}
 
 class StubResponseImpl implements StubResponse {
   private sentBody: any;
