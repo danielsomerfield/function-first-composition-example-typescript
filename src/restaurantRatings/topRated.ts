@@ -1,15 +1,14 @@
-// <codeFragment name="top-rated">
-interface Dependencies { // ref-dependencies
+interface Dependencies {
   findRatingsByRestaurant: (city: string) => Promise<RatingsByRestaurant[]>;
   calculateRatingForRestaurant: (ratings: RatingsByRestaurant) => number;
 }
 
-interface OverallRating { // ref-overall-ratings
+interface OverallRating { 
   restaurantId: string;
   rating: number;
 }
 
-interface RestaurantRating { // ref-extract-types
+interface RestaurantRating { 
   rating: Rating;
 }
 
@@ -18,7 +17,7 @@ interface RatingsByRestaurant {
   ratings: RestaurantRating[];
 }
 
-export const create = (dependencies: Dependencies) => { // ref-function-factory
+export const create = (dependencies: Dependencies) => { 
   const calculateRatings = (
     ratingsByRestaurant: RatingsByRestaurant[],
     calculateRatingForRestaurant: (ratings: RatingsByRestaurant) => number,
@@ -29,6 +28,23 @@ export const create = (dependencies: Dependencies) => { // ref-function-factory
         rating: calculateRatingForRestaurant(ratings),
       };
     });
+
+  // <codeFragment name="fix-restaurant-contract">
+
+  interface Restaurant {
+    id: string;
+    name: string,
+  }
+
+  const toRestaurant = (r: OverallRating) => ({
+    id: r.restaurantId,
+    // TODO: I put in a dummy value to
+    //  start and make sure our contract is being met
+    //  then we'll add more to the testing
+    name: "",
+  });
+
+  // </codeFragment>
 
   const getTopRestaurants = async (city: string): Promise<Restaurant[]> => {
     const { findRatingsByRestaurant, calculateRatingForRestaurant } =
@@ -41,10 +57,6 @@ export const create = (dependencies: Dependencies) => { // ref-function-factory
       calculateRatingForRestaurant,
     );
 
-    const toRestaurant = (r: OverallRating) => ({
-      id: r.restaurantId,
-    });
-
     return sortByOverallRating(overallRatings).map(r => {
       return toRestaurant(r);
     });
@@ -55,14 +67,6 @@ export const create = (dependencies: Dependencies) => { // ref-function-factory
 
   return getTopRestaurants;
 };
-
-//SNIP ..
-
-// </codeFragment>
-
-interface Restaurant {
-  id: string;
-}
 
 export const rating = {
   EXCELLENT: 2,
