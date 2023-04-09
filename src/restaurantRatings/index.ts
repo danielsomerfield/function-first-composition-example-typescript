@@ -8,8 +8,7 @@ export const init = (
   express: Express,
   factories: Factories = productionFactories,
 ) => {
-  // TODO: Wire in a stub that matches the dependencies signature for now.
-  //  Replace this once we build our additional dependencies.
+
   const topRatedDependencies = {
     findRatingsByRestaurant: () => {
       throw "NYI";
@@ -17,13 +16,18 @@ export const init = (
     calculateRatingForRestaurant: () => {
       throw "NYI";
     },
+    getRestaurantById: () => {
+      throw "NYI";
+    },
   };
   const getTopRestaurants = factories.topRatedCreate(topRatedDependencies);
   const handler = factories.handlerCreate({
-    getTopRestaurants, // TODO: <-- This line does not compile right now. Why?
+    getTopRestaurants,
   });
   express.get("/:city/restaurants/recommended", handler);
 };
+
+// </codeFragment>
 
 interface Factories {
   topRatedCreate: typeof topRated.create;
@@ -38,4 +42,4 @@ export const productionFactories: Factories = {
     return { ...productionFactories, ...replacements };
   },
 };
-// </codeFragment>
+

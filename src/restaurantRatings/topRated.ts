@@ -1,14 +1,15 @@
 interface Dependencies {
+  getRestaurantById: (id: string) => Promise<Restaurant>;
   findRatingsByRestaurant: (city: string) => Promise<RatingsByRestaurant[]>;
   calculateRatingForRestaurant: (ratings: RatingsByRestaurant) => number;
 }
 
-interface OverallRating { 
+interface OverallRating {
   restaurantId: string;
   rating: number;
 }
 
-interface RestaurantRating { 
+interface RestaurantRating {
   rating: Rating;
 }
 
@@ -17,7 +18,7 @@ interface RatingsByRestaurant {
   ratings: RestaurantRating[];
 }
 
-export const create = (dependencies: Dependencies) => { 
+export const create = (dependencies: Dependencies) => {
   const calculateRatings = (
     ratingsByRestaurant: RatingsByRestaurant[],
     calculateRatingForRestaurant: (ratings: RatingsByRestaurant) => number,
@@ -29,26 +30,21 @@ export const create = (dependencies: Dependencies) => {
       };
     });
 
-  // <codeFragment name="fix-restaurant-contract">
-
-  interface Restaurant {
-    id: string;
-    name: string,
-  }
-
-  const toRestaurant = (r: OverallRating) => ({
-    id: r.restaurantId,
-    // TODO: I put in a dummy value to
-    //  start and make sure our contract is being met
-    //  then we'll add more to the testing
-    name: "",
-  });
-
-  // </codeFragment>
-
+  // <codeFragment name="getTopRestaurants">
   const getTopRestaurants = async (city: string): Promise<Restaurant[]> => {
-    const { findRatingsByRestaurant, calculateRatingForRestaurant } =
-      dependencies;
+    const {
+      findRatingsByRestaurant,
+      calculateRatingForRestaurant,
+      getRestaurantById,
+    } = dependencies;
+
+    const toRestaurant = async (r: OverallRating) => { // ref-to-restaurant
+      const restaurant = await getRestaurantById(r.restaurantId);
+      return {
+        id: r.restaurantId,
+        name: restaurant.name,
+      };
+    };
 
     const ratingsByRestaurant = await findRatingsByRestaurant(city);
 
@@ -57,16 +53,24 @@ export const create = (dependencies: Dependencies) => {
       calculateRatingForRestaurant,
     );
 
-    return sortByOverallRating(overallRatings).map(r => {
-      return toRestaurant(r);
-    });
+    return Promise.all(  // ref-promise-all
+      sortByOverallRating(overallRatings).map(r => {
+        return toRestaurant(r);
+      }),
+    );
   };
+  // </codeFragment>
 
   const sortByOverallRating = (overallRatings: OverallRating[]) =>
     overallRatings.sort((a, b) => b.rating - a.rating);
 
   return getTopRestaurants;
 };
+
+interface Restaurant {
+  id: string;
+  name: string;
+}
 
 export const rating = {
   EXCELLENT: 2,
