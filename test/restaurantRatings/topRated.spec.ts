@@ -10,7 +10,7 @@ describe("The top rated restaurant list", () => {
       ["restaurant2", { restaurantId: "restaurant2", name: "Restaurant 2" }],
     ]);
 
-    const getRestaurantByIdStub = (id: string) => { // ref-find-by-id
+    const getRestaurantByIdStub = (id: string) => {
       return restaurantsById.get(id);
     };
 
@@ -22,6 +22,10 @@ describe("The top rated restaurant list", () => {
         restaurantId: "restaurant1",
         ratings: [
           {
+            ratedByUser: {
+              id: "user1",
+              isTrusted: true,
+            },
             rating: "EXCELLENT",
           },
         ],
@@ -30,7 +34,11 @@ describe("The top rated restaurant list", () => {
         restaurantId: "restaurant2",
         ratings: [
           {
-            rating: "AVERAGE",
+            ratedByUser: {
+              id: "user2",
+              isTrusted: false,
+            },
+            rating: "EXCELLENT",
           },
         ],
       },
@@ -64,10 +72,8 @@ describe("The top rated restaurant list", () => {
       }
     };
 
-    // <codeFragment name = "top-rated-unit-test-verify-names">
-
     const dependencies = {
-      getRestaurantById: getRestaurantByIdStub,  // ref-wire-in-find-by-id
+      getRestaurantById: getRestaurantByIdStub,
       findRatingsByRestaurant: findRatingsByRestaurantStub,
       calculateRatingForRestaurant: calculateRatingForRestaurantStub,
     };
@@ -76,11 +82,10 @@ describe("The top rated restaurant list", () => {
     const topRestaurants = await getTopRated("vancouverbc");
     expect(topRestaurants.length).toEqual(2);
     expect(topRestaurants[0].id).toEqual("restaurant1");
-    expect(topRestaurants[0].name).toEqual("Restaurant 1"); // ref-verify-the-name
+    expect(topRestaurants[0].name).toEqual("Restaurant 1");
     expect(topRestaurants[1].id).toEqual("restaurant2");
     expect(topRestaurants[1].name).toEqual("Restaurant 2");
 
-    // </codeFragment>
   });
 });
 
@@ -91,6 +96,12 @@ interface RatingsByRestaurant {
 
 interface RestaurantRating {
   rating: Rating;
+  ratedByUser: User
+}
+
+interface User {
+  id: string;
+  isTrusted: boolean;
 }
 
 export const rating = {

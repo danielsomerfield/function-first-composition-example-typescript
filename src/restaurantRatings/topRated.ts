@@ -1,3 +1,5 @@
+import { Rating } from "./rating";
+
 interface Dependencies {
   getRestaurantById: (id: string) => Promise<Restaurant>;
   findRatingsByRestaurant: (city: string) => Promise<RatingsByRestaurant[]>;
@@ -11,6 +13,12 @@ interface OverallRating {
 
 interface RestaurantRating {
   rating: Rating;
+  ratedByUser: User;
+}
+
+interface User {
+  id: string;
+  isTrusted: boolean;
 }
 
 interface RatingsByRestaurant {
@@ -30,7 +38,6 @@ export const create = (dependencies: Dependencies) => {
       };
     });
 
-  // <codeFragment name="getTopRestaurants">
   const getTopRestaurants = async (city: string): Promise<Restaurant[]> => {
     const {
       findRatingsByRestaurant,
@@ -38,7 +45,7 @@ export const create = (dependencies: Dependencies) => {
       getRestaurantById,
     } = dependencies;
 
-    const toRestaurant = async (r: OverallRating) => { // ref-to-restaurant
+    const toRestaurant = async (r: OverallRating) => {
       const restaurant = await getRestaurantById(r.restaurantId);
       return {
         id: r.restaurantId,
@@ -53,13 +60,10 @@ export const create = (dependencies: Dependencies) => {
       calculateRatingForRestaurant,
     );
 
-    return Promise.all(  // ref-promise-all
-      sortByOverallRating(overallRatings).map(r => {
-        return toRestaurant(r);
-      }),
+    return Promise.all(
+      sortByOverallRating(overallRatings).map(r => toRestaurant(r)),
     );
   };
-  // </codeFragment>
 
   const sortByOverallRating = (overallRatings: OverallRating[]) =>
     overallRatings.sort((a, b) => b.rating - a.rating);
@@ -72,12 +76,3 @@ interface Restaurant {
   name: string;
 }
 
-export const rating = {
-  EXCELLENT: 2,
-  ABOVE_AVERAGE: 1,
-  AVERAGE: 0,
-  BELOW_AVERAGE: -1,
-  TERRIBLE: -2,
-} as const;
-
-export type Rating = keyof typeof rating;

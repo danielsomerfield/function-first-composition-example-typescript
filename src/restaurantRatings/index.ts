@@ -1,6 +1,7 @@
 import { Express } from "express";
 import { createTopRatedHandler } from "./controller";
 import * as topRated from "../../src/restaurantRatings/topRated";
+import { calculateRatingForRestaurant } from "./ratingsAlgorithm";
 
 // <codeFragment name="application-assembly">
 
@@ -13,9 +14,7 @@ export const init = (
     findRatingsByRestaurant: () => {
       throw "NYI";
     },
-    calculateRatingForRestaurant: () => {
-      throw "NYI";
-    },
+    calculateRatingForRestaurant,
     getRestaurantById: () => {
       throw "NYI";
     },
