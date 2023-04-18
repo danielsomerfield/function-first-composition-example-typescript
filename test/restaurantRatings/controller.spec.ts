@@ -4,7 +4,6 @@ import { stubRequest, stubResponse } from "../stubs/http";
 
 describe("the ratings controller", () => {
   it("provides a JSON response with ratings", async () => {
-    // <codeFragment name="controller-unit-test">
     type Restaurant = { id: string };
     type RestaurantResponseBody = { restaurants: Restaurant[] };
 
@@ -50,6 +49,5 @@ describe("the ratings controller", () => {
       vancouverRestaurants[0],
       vancouverRestaurants[1],
     ]);
-    // </codeFragment>
   });
 });

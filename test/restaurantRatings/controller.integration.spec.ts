@@ -3,7 +3,6 @@ import request from "supertest";
 import * as ratingsSubdomain from "../../src/restaurantRatings/index";
 import { productionFactories } from "../../src/restaurantRatings";
 
-// <codeFragment name="controller-integration-test">
 describe("the controller top rated handler", () => {
 
   it("delegates to the domain top rated logic", async () => {
@@ -39,4 +38,3 @@ describe("the controller top rated handler", () => {
 interface RatedRestaurants {
   restaurants: { id: string; name: string }[];
 }
-// </codeFragment>

@@ -1,6 +1,5 @@
 import { Rating, rating } from "./rating";
 
-// <codeFragment name="ratings-algorithm">
 interface RestaurantRating {
   rating: Rating;
   ratedByUser: User;
@@ -25,4 +24,3 @@ export const calculateRatingForRestaurant = (
     return prev + rating[curr.rating] * trustedMultiplier(curr);
   }, 0);
 };
-// </codeFragment>

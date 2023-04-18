@@ -3,8 +3,6 @@ import * as topRated from "../../src/restaurantRatings/topRated";
 describe("The top rated restaurant list", () => {
   it("is calculated from our proprietary ratings algorithm", async () => {
 
-    // <codeFragment name="top-rated-unit-test-stub-find-by-id">
-
     const restaurantsById = new Map<string, any>([
       ["restaurant1", { restaurantId: "restaurant1", name: "Restaurant 1" }],
       ["restaurant2", { restaurantId: "restaurant2", name: "Restaurant 2" }],
@@ -13,9 +11,6 @@ describe("The top rated restaurant list", () => {
     const getRestaurantByIdStub = (id: string) => {
       return restaurantsById.get(id);
     };
-
-    //SNIP...
-    // </codeFragment>
 
     const ratings: RatingsByRestaurant[] = [
       {

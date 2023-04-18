@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-// <codeFragment name="controller">
 
 interface Restaurant {
   id: string;
@@ -19,4 +18,3 @@ export const createTopRatedHandler = (dependencies: Dependencies) => {
     response.status(200).send({ restaurants });
   };
 };
-// </codeFragment>

@@ -3,8 +3,6 @@ import { createTopRatedHandler } from "./controller";
 import * as topRated from "../../src/restaurantRatings/topRated";
 import { calculateRatingForRestaurant } from "./ratingsAlgorithm";
 
-// <codeFragment name="application-assembly">
-
 export const init = (
   express: Express,
   factories: Factories = productionFactories,
@@ -26,7 +24,6 @@ export const init = (
   express.get("/:city/restaurants/recommended", handler);
 };
 
-// </codeFragment>
 
 interface Factories {
   topRatedCreate: typeof topRated.create;
