@@ -4,7 +4,7 @@ import {
 } from "testcontainers";
 
 import path from "path";
-import { Client } from "pg";
+import { Client, Pool } from "pg";
 
 let pgContainer: StartedPostgreSqlContainer | undefined;
 
@@ -40,6 +40,12 @@ export const start = async (): Promise<Database> => {
         ...connectionConfiguration,
       });
     },
+    createPool: () => {
+      return new Pool({
+        port: pgContainer!.getPort(),
+        ...connectionConfiguration,
+      });
+    },
     getPort: () => {
       failIfNotStarted();
       return pgContainer!.getPort();
@@ -54,4 +60,5 @@ export interface Database {
   getClient: () => Client;
   getPort: () => number;
   stop: () => Promise<void>;
+  createPool: () => Pool;
 }

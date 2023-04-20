@@ -36,7 +36,7 @@ export const createRatingByUserForRestaurant = async (
   client: Client,
 ) => {
   return await client.query(
-    "insert into restaurant_rating (id, rated_by_user_id, restaurant_id, rating) VALUES ($1, $2, $3, $4)",
+    "insert into restaurant_rating (id, rated_by_user_id, restaurant_id, rating, city) VALUES ($1, $2, $3, $4, 'vancouverbc')",
     [id, user.id, restaurant.id, rating],
   );
 };
