@@ -1,5 +1,15 @@
 # TDD and function-first composition with TypeScript
 
+This repository is a companion to the article [Dependency Composition](#TODO_LINK) that discusses an alternative approach
+to building up services using a somewhat unconventional combination of TDD, partial application, and functions as the 
+primary compositional unit. Although these examples are written in Typescript, the approach is compatible with other languages
+and I will add additional implementations in other languages as time permits.
+
+The code from the article is extracted directly from the `steps` branch of this repo. If you wish to see the process by
+which the code was developed, you can walk through the commits one by one. The commits should follow the narrative of the
+article. Do not expect the code to run, or even compile, at every stage, particularly the early ones in which I have 
+defined intended behaviour in the tests but have not yet implemented it.
+
 # Instructions
 
 ## Running the unit tests
