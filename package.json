@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "prestart": "npm run build",
-    "start": "node .",
+    "start": "REVIEW_DATABASE_USER=postgres REVIEW_DATABASE_PASSWORD=postgres REVIEW_DATABASE_HOST=localhost REVIEW_DATABASE_DATABASE=postgres REVIEW_DATABASE_PORT=5432 node .",
     "start:dev": "nodemon src/index.ts",
     "lint": "eslint . --ext .ts,.js --ignore-pattern node_modules",
     "test:unit": "jest --forceExit --no-cache --detectOpenHandles --testPathIgnorePatterns=.*integration.*\\.spec\\.ts",
