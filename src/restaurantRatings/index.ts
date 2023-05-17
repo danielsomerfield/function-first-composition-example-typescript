@@ -1,6 +1,6 @@
 import { Express } from "express";
+import * as topRated from "./topRated";
 import { createTopRatedHandler } from "./controller";
-import * as topRated from "../../src/restaurantRatings/topRated";
 import { calculateRatingForRestaurant } from "./ratingsAlgorithm";
 import { createFindRatingsByRestaurant } from "./ratingsRepository";
 import { createGetRestaurantById } from "./restaurantRepository";
