@@ -1,7 +1,7 @@
 # TDD and function-first composition with TypeScript
 
-This repository is a companion to the article [Dependency Composition](#TODO_LINK) that discusses an alternative approach
-to building up services using a somewhat unconventional combination of TDD, partial application, and functions as the 
+This repository is a companion to the article [Dependency Composition](https://martinfowler.com/articles/dependency-composition.html)
+that discusses an alternative approach to building up services using a somewhat unconventional combination of TDD, partial application, and functions as the 
 primary compositional unit. Although these examples are written in Typescript, the approach is compatible with other languages
 and I will add additional implementations in other languages as time permits.
 
