@@ -14,18 +14,18 @@ defined intended behaviour in the tests but have not yet implemented it.
 
 ## Running the unit tests
 
-    npm test:unit
+    npm run test:unit
 
 ## Running the integration tests
 
-    npm test:integration
+    npm run test:integration
 
 ## Running the application
 
     docker-compose up -d
     npm start
 
-  You should then be able to access the service endpoint at `http://localhost:3000/restaurants/recommended`
+  You should then be able to access the service endpoint at `http://localhost:3000/vancouverbc/restaurants/recommended`
 
 # Points of interest
 

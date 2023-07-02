@@ -4,8 +4,8 @@ describe("The top rated restaurant list", () => {
   it("is calculated from our proprietary ratings algorithm", async () => {
 
     const restaurantsById = new Map<string, any>([
-      ["restaurant1", { restaurantId: "restaurant1", name: "Restaurant 1" }],
-      ["restaurant2", { restaurantId: "restaurant2", name: "Restaurant 2" }],
+      ["restaurant1", { id: "restaurant1", name: "Restaurant 1" }],
+      ["restaurant2", { id: "restaurant2", name: "Restaurant 2" }],
     ]);
 
     const getRestaurantByIdStub = (id: string) => {

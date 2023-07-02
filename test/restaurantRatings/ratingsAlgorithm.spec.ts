@@ -29,4 +29,15 @@ describe("The ratings algorithm", () => {
     });
     expect(overallRating).toEqual(rating.EXCELLENT * 4);
   });
+
+  it("provides additional weighting for a trusted user multiple", () => {
+    const overallRating = calculateRatingForRestaurant({
+      restaurantId: "restaurant1",
+      ratings: [
+        { rating: "EXCELLENT", ratedByUser: { id: "user1", isTrusted: true } },
+        { rating: "EXCELLENT", ratedByUser: { id: "user1", isTrusted: false } },
+      ],
+    });
+    expect(overallRating).toEqual(rating.EXCELLENT * 5);
+  });
 });
